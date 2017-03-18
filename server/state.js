@@ -7,7 +7,7 @@ var currentState = {};
 var deletePoints = function(route, routePoint) {
     var index = route.points.indexOf(routePoint);
     if (index > -1) {
-        route.points = route.points.slice(index, -1);
+        route.points = route.points.slice(index + 1, route.points.length);
     }
 }
 
@@ -18,15 +18,13 @@ var isRouteFinished = function(route) {
 /* STATE MANAGMENT */
 
 var insertUserRoute = function(idUser, points, balance) {
-    if(typeof currentState[idUser].info === "undefined") {
-        getUserInfo(idUser);
-    }
     currentState[idUser].route = {idUser : idUser, points : points, balance : balance};
+    console.log(currentState[idUser].route);
 }
 
 var updatePoint = function(idUser, routePoint) {
     
-    var route = currentState[idUser].route.points;
+    var route = currentState[idUser].route;
     deletePoints(route, routePoint);
 
     var ret = {lastPoint : false, balance : currentState[idUser].info.balance};
@@ -43,14 +41,15 @@ var updatePoint = function(idUser, routePoint) {
 
 /* USER MANAGMENT */
 
-var getUserInfo = function(idUser) {
+var getUserInfo = function(idUser, done) {
 
     var callback = function(err, result) {
 
         if(result.length === 0) {
             console.log("idUser does not exists, creating it: " + idUser);
             db.insertToDb("user", {id : idUser, balance : 0});
-            return {idClient : idUser, balance : 0};
+            done({idClient : idUser, balance : 0});
+            return;
         }
 
         if(idUser !== result[0].id) {
@@ -59,11 +58,12 @@ var getUserInfo = function(idUser) {
 
         var info = {idCLient : result[0].id, balance : result[0].balance};
 
+        currentState[idUser] = {info : {}, route : {}};
         currentState[idUser].info = info;
-        return info;
+        done(info);
     }
 
-    db.getFromDb('user', callback);
+    db.getFromDb('user', idUser, callback);
 }
 
 var setNewBalance = function(idUser, balance) {
@@ -71,7 +71,6 @@ var setNewBalance = function(idUser, balance) {
     var callback = function() {};
 
     var info = db.updateField('user', idUser, "balance", balance, callback);
-
 }
 
 exports.insertUserRoute = insertUserRoute;

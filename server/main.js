@@ -3,6 +3,8 @@ var app = express();
 var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 
+var state = require('./state.js');
+
 var state = require('./state');
 var db = require('./db');
 
@@ -20,22 +22,33 @@ http.listen(3000, function(){
 
 app.get('/login', function(req,res){
 	var user_id = req.param('id');
-	///////////getUserInfo(user_id);
+	state.getUserInfo(user_id, function(info){
+		res.json(info);
+	});
 });
-
+//NO COMPROVAT
 app.get('/initRoute', function(req, res){
-	var pos_ini = req.param('pos_ini');
-	var pos_fi = req.param('pos_fi');
+	var pos_ini = req.body.pos_ini;
+	var pos_fi = req.body.pos_fi;
 	var user_id = req.param('id');
-	/*MARC calcula la ruta*/
-	-->send routes to frontend 
+		/*MARC calcula la ruta
+		route1-> tha fast mone
+		route2 -> gettiiiiiin money
+	*/
+	res.json(route1, route2);
 });
 
-app.get('/chooseRoute', function(req, res){
-	var route = req.param('route');
+app.post('/chooseRoute', function(req, res){
+	var route = req.body.route;
+	var user_id = req.param('id');
+	var money = req.body.earned;
+	state.insertUserRoute(user_id, route, money);
+	res.json({status : "ok"});
+});
+
+app.post('/updateRoute',function(req, res){
+	var point = req.body.point; 
 	var id = req.param('id');
-	var id = req.param('earned');
-	//////////////
+	var info = state.updatePoint(id, point);
+	res.json(info);
 });
-
-app.get()
