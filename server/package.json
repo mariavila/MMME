@@ -6,6 +6,9 @@
     "body-parser": "*",
     "express": "^4.10.2",
     "heap": "^0.2.6",
-    "http": "*"
+    "http": "*",
+    "body-parser": "*",
+    "fs" : "*",
+    "sqlite3" : "*"
   }
 }

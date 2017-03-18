@@ -11,8 +11,8 @@ var connect = function() {
 }
 exports.connect = connect;
 
-var getFromDb = function(database, callback) {
-  	var sql = "SELECT * FROM " + database;
+var getFromDb = function(database, id, callback) {
+  	var sql = "SELECT * FROM " + database + " WHERE id = "+ id;
 	var query = db.all(sql, [], callback);
 }
 exports.getFromDb = getFromDb;
@@ -27,6 +27,14 @@ var insertToDb = function(database, obj, callback) {
 	var query = db.run(sql, Object.values(obj), callback);
 }
 exports.insertToDb = insertToDb;
+
+var updateField = function(database, id, field, value, callback) {
+
+	var sql = "UPDATE " + database + " SET " + field + " = " + 
+		value + " WHERE id = " + id;
+	var query = db.run(sql, [], callback);
+}
+exports.updateField = updateField;
 
 /**
  * Migrate database function
