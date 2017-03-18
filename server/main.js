@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 
-var state = requiere('./state');
+var state = require('./state');
 var db = require('./db');
 
 app.use(express.static('public'));

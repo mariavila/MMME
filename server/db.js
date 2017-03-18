@@ -28,6 +28,14 @@ var insertToDb = function(database, obj, callback) {
 }
 exports.insertToDb = insertToDb;
 
+var updateField = function(database, id, field, value, callback) {
+
+	var sql = "UPDATE " + database + " SET " + field + " = " + 
+		value + " WHERE id = " + id;
+	var query = db.run(sql, Object.values(obj), callback);
+}
+exports.insertToDb = insertToDb;
+
 /**
  * Migrate database function
  */

@@ -1,7 +1,7 @@
 -- UP
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `idClient` TEXT NOT NULL PRIMARY KEY,
+  `id` TEXT NOT NULL PRIMARY KEY,
   `balance` INTEGER
 );
 
