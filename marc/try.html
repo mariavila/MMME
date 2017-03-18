@@ -1,0 +1,32 @@
+<html>
+<head>
+
+    <title>ola ke ase</title>
+
+</head>
+
+<body>
+        <button onclick="uploadFile()">Click me</button>
+
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function uploadFile() {
+        var app_id = "oqE1xJzC0OeRVgoB0HV6";
+        var app_code = "ztTMu1hC1QSlyH9PKM4HVQ";
+        var url = "https://traffic.cit.api.here.com/traffic/6.1/incidents/xml/8/134/86?app_id=" + app_id + "&app_code=" + app_code;
+
+        httpGet(url);
+    }
+    function httpGet(theUrl, callback)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() { 
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+        xmlHttp.send(null);
+    }
+</script>
+</html>
