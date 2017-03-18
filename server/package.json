@@ -5,10 +5,10 @@
   "dependencies": {
     "body-parser": "*",
     "express": "^4.10.2",
+    "fs": "*",
     "heap": "^0.2.6",
     "http": "*",
-    "body-parser": "*",
-    "fs" : "*",
-    "sqlite3" : "*"
+    "sorted-array": "^2.0.1",
+    "sqlite3": "*"
   }
 }

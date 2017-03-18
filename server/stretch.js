@@ -1,3 +1,5 @@
+var sortedArray = require("sorted-array");
+
 var stretchs = {};
 var lastId = 0;
 
@@ -10,13 +12,38 @@ var insert = function(pos, vmax, long, lanes, nextsStretchs) {
     var k = vmax * long * lanes/(3 * vmax/(16 * 3600/1000) + 3);
     stretch.k = k;
 
+    //add sorted start times
+    stretch.orderStartDate = new sortedArray([], orderStartDate());
+    //add soreted end times
+    stretch.orderEndDate = new sortedArray([], orderEndDate());
+
     stretchs[lastId] = stretch;
     lastId++;
 }
 exports.insert = insert;
 
+var insertRoute = function(id, points) {
+    //clear previous routes for this user
+
+    var updateTime = 0;
+
+    for(i in points) {
+        var point = points[i];
+
+        //add time
+        var time = getTime(point, updateTime);
+
+        //save new time
+        var obj = {startTime : updateTime, endTime : updateTime, idUser : id};
+        stretch.orderStartDate.insert(obj);
+        stretch.orderEndDate.insert(obj);
+    }
+
+    //propagate if wanted
+}
+
 var getPeople = function(idScretch, time) {
-    
+    return 1;
 }
 exports.getPeople = getPeople;
 
