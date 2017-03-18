@@ -4,24 +4,17 @@ var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 var io = require('socket.io')(http);
 
+var state = requiere('./state');
+var db = require('./db');
+
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+db.connect();
+
 //Server
 http.listen(3000, function(){
  	console.log('listening on *:3000');
-});
-
-//IO
-io.on('connection', function(socket){
-	
-	var id = socket.id;
-	
-	socket.on('disconnect', function() {
-			
-	});
-
-	//Add connection TODO
 });
