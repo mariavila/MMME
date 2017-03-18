@@ -9,7 +9,7 @@ function totalCost(state, end) {
 function expectedCost(state,end) {
   var ipos = Stretch.getParameter(state.stretchId, "pos")
   var fpos = Stretch.getParameter(end, "pos")
-  return distancef(ipos, fpos) / MEANSPEED;
+  return distancef(ipos, fpos) * 1000 / MEANSPEED;
 }
 
 
