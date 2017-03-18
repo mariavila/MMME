@@ -13,15 +13,3 @@ app.use(bodyParser.json());
 http.listen(3000, function(){
  	console.log('listening on *:3000');
 });
-
-//IO
-io.on('connection', function(socket){
-	
-	var id = socket.id;
-	
-	socket.on('disconnect', function() {
-			
-	});
-
-	//Add connection TODO
-});
