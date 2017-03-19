@@ -33,13 +33,17 @@ console.log(req.query);
 });
 //NO COMPROVAT
 app.get('/initRoute', function(req, res){
-	var pos_ini = req.query.pos_ini;
-	var pos_fi = req.query.pos_fi;
+    var pos_ini = {};
+    var pos_fi = {};
+    pos_ini.latitude = req.query.pos_ini_lat;
+    pos_ini.longitude = req.query.pos_ini_lng;
+    pos_fi.latitude = req.query.pos_fi_lat;
+    pos_fi.longitude = req.query.pos_fi_lng;
 	var user_id = req.query.id;
   console.log(req.query);
   state.clearRouteUser(user_id);
   var ret = stretch.getNearestStretchs(pos_ini,pos_fi);
-  console.log('calling solver :' + ret.stringify());
+  console.log('calling solver :' + JSON.stringify(ret));
   var route = planner.solve(ret.ini, ret.fi);
   console.log(route);
 	res.json(route);
