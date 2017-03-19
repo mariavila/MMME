@@ -3,11 +3,10 @@ var app = express();
 var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 
-var state = require('./state.js');
-
 var state = require('./state');
 var db = require('./db');
-
+var stretch = require('./stretch');
+var planner = require('./planner');
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,11 +30,9 @@ app.get('/initRoute', function(req, res){
 	var pos_ini = req.body.pos_ini;
 	var pos_fi = req.body.pos_fi;
 	var user_id = req.param('id');
-		/*MARC calcula la ruta
-		route1-> tha fast mone
-		route2 -> gettiiiiiin money
-	*/
-	res.json(route1, route2);
+  var ret = stretch.getNearestStretchs(pos_ini,pos_fi);
+  var route = planner.solve(ret.ini, ret.fi);
+	res.json(route);
 });
 
 app.post('/chooseRoute', function(req, res){
@@ -47,7 +44,7 @@ app.post('/chooseRoute', function(req, res){
 });
 
 app.post('/updateRoute',function(req, res){
-	var point = req.body.point; 
+	var point = req.body.point;
 	var id = req.param('id');
 	var info = state.updatePoint(id, point);
 	res.json(info);
