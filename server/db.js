@@ -12,7 +12,7 @@ var connect = function() {
 exports.connect = connect;
 
 var getFromDb = function(database, id, callback) {
-  	var sql = "SELECT * FROM " + database + " WHERE id = "+ id;
+  	var sql = "SELECT * FROM " + database + " WHERE id = '"+ id + "'";
 	var query = db.all(sql, [], callback);
 }
 exports.getFromDb = getFromDb;

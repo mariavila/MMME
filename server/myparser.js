@@ -137,5 +137,3 @@ function deg2rad(deg) {
 }
 
 exports.parseMap = parseMap;
-
-parseMap();
