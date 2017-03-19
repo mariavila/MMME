@@ -57,7 +57,7 @@ var getUserInfo = function(idUser, done) {
 
     var callback = function(err, result) {
 
-        if(typeof result == undefined || result.length == 0) {
+        if(result.length == 0) {
             console.log("idUser does not exists, creating it: " + idUser);
             db.insertToDb("user", {id : idUser, balance : 0});
             done({idClient : idUser, balance : 0});
