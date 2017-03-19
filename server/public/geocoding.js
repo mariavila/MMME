@@ -1,12 +1,14 @@
   var pos_ini = {};
   var pos_fi = {};
 
+  var user = window.user;
+
   function sendInitRoute() {
     console.log(pos_ini);
 
     var xhr2 = new XMLHttpRequest();
     var query = "pos_ini_lat=" + pos_ini.latitude + "&pos_ini_lng=" + pos_ini.longitude +
-      "&pos_fi_lat=" + pos_fi.latitude + "&pos_fi_lng=" + pos_fi.longitude + "&id=estevetarra"
+      "&pos_fi_lat=" + pos_fi.latitude + "&pos_fi_lng=" + pos_fi.longitude + "&id=" + user
     xhr2.open('GET', 'http://localhost:3000/initRoute' + "?" + query);
     //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr2.onload = function() {

@@ -74,7 +74,7 @@ var getUserInfo = function(idUser, done) {
             console.error("idUser does not match query id");
         }
 
-        var info = {idCLient : result[0].id, balance : result[0].balance};
+        var info = {idClient : result[0].id, balance : result[0].balance};
 
         currentState[idUser] = {info : {}, route : {}};
         currentState[idUser].info = info;
