@@ -30,6 +30,7 @@ app.get('/initRoute', function(req, res){
 	var pos_ini = req.body.pos_ini;
 	var pos_fi = req.body.pos_fi;
 	var user_id = req.param('id');
+  state.clearRouteUser(user_id);
   var ret = stretch.getNearestStretchs(pos_ini,pos_fi);
   var route = planner.solve(ret.ini, ret.fi);
 	res.json(route);
