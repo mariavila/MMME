@@ -22,12 +22,12 @@
   <script src="https://unpkg.com/lrm-mapzen/dist/lrm-mapzen.js"></script>
   <script>
 
-    var route = JSON.parse('<%= route %>');
+    var route = JSON.parse('<%- JSON.stringify(route) %>');
 
     var waypoints = [];
 
     for(var i in route) {
-      var waypoint = routes[i];
+      var waypoint = route[i];
       waypoints.push(L.latLng(waypoint.latitude, waypoint.longitude));
     }
 
@@ -37,6 +37,25 @@
       attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | <a href="http://www.openstreetmap.org/about" target="_blank">&copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>',
     });
     layer.addTo(map);
+
+    L.Routing.control({
+      waypoints: [waypoints[0], waypoints[waypoints.length -1]],
+      lineOptions: {
+        styles: [ {color: 'white',opacity: 0.8, weight: 12},
+                {color: '#E59400', opacity: 1, weight: 6}
+      ]},
+      createMarker: function(i, wp) {
+				return L.marker(wp.latLng,
+        {
+  					opacity: 0
+				});
+      },
+      router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
+      formatter: new L.Routing.mapzenFormatter(),
+      summaryTemplate:'<div class="start">{name}</div><div class="info {costing}">{distance}, {time}</div>',
+      routeWhileDragging: false
+    }).addTo(map);
+
     //map.setView([41.8758,-87.6189], 16);
     L.Routing.control({
       waypoints: waypoints,

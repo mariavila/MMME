@@ -59,9 +59,9 @@ app.get('/initRoute', function(req, res){
 	count++;
   }
 
-  	console.log(newRoute);
+  	console.log(JSON.stringify(newRoute));
   
-	res.render('index.html', {route : JSON.stringify(newRoute)});
+	res.render('index.html', {route : newRoute});
 });
 
 app.get('/getAllRoutes', function(req, res){
