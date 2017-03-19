@@ -77,14 +77,14 @@ var solve = function (begin,  end){
         retur.time = heap.peek().time;
         retur.cost = heap.peek().cost;
         retur.money = (retur.cost - retur.time) * 15.0 / 3600;
-        retur.money = (retur.money + retur.time * 0.001).toFixed(3);
+        retur.money = (retur.money + retur.time * 0.0005).toFixed(3);
         return retur;
     }  else {
         retur.status = 1;
         retur.time = 0;
         retur.cost = 0;
         retur.money = (retur.cost - retur.time) * 15.0 / 3600;
-        retur.money = (retur.money + retur.time * 0.001).toFixed(3);
+        retur.money = (retur.money + retur.time * 0.0005).toFixed(3);
         return retur;
     }
 }

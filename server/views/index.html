@@ -53,7 +53,7 @@
       },
       router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
       formatter: new L.Routing.mapzenFormatter(),
-      summaryTemplate:'<strong>Fastest route</strong><div>Benefit : 0 </div><div class="info {costing}">{distance}, {time}</div>',
+      summaryTemplate:'<strong style="background-color:#f5d9a5">Fastest route</strong><div>Benefit : 0 </div><div class="info {costing}">{distance}, {time}</div>',
       routeWhileDragging: false
     }).addTo(map);
 
@@ -72,7 +72,7 @@
       },
       router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
       formatter: new L.Routing.mapzenFormatter(),
-      summaryTemplate:'<strong>Optimal route</strong><div>Benefit : '+ benefit +'</div><div class="info {costing}">{distance}, {time}</div>',
+      summaryTemplate:'<strong style="background-color:#add8e6" >Optimal route</strong><div>Benefit : '+ benefit +'</div><div class="info {costing}">{distance}, {time}</div>',
       routeWhileDragging: false
     }).addTo(map);
 
