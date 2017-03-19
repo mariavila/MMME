@@ -50,7 +50,7 @@
         //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
           var result = JSON.parse(xhr.responseText);
-          console.log(result);
+          console.log(xhr.responseText);
           for (var userkey in result)
           {
             //    currentState[idUser].route = {idUser : idUser, points : points, balance : balance};
