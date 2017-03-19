@@ -3,6 +3,14 @@ var sortedArray = require("sorted-array");
 var stretchs = {};
 var lastId = 0;
 
+var orderStartDate = function(x, y) {
+    return x.startTime - y.startTime;
+}
+
+var orderEndDate = function(x, y) {
+    return x.endTime - y.endTime;
+}
+
 var insert = function(pos, vmax, long, lanes, nextsStretchs) {
     
     var stretch = {id: lastId, pos : pos, vmax : vmax, long : long, 
@@ -31,12 +39,14 @@ var insertRoute = function(id, points) {
         var point = points[i];
 
         //add time
-        var time = getTime(point, updateTime);
+        var time = getTime(point, updateTime) + updateTime;
 
         //save new time
-        var obj = {startTime : updateTime, endTime : updateTime, idUser : id};
+        var obj = {startTime : updateTime, endTime : time, idUser : id};
         stretch.orderStartDate.insert(obj);
         stretch.orderEndDate.insert(obj);
+
+        updateTime = time;
     }
 
     //propagate if wanted
