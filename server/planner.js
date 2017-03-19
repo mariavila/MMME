@@ -26,6 +26,7 @@ var solve = function (begin,  end){
   });
 
   var firstState = {};
+  var visitats = {};
   firstState.cost = 0;
   firstState.time = 0;
   firstState.stretchId = begin;
@@ -39,20 +40,24 @@ var solve = function (begin,  end){
     {
       var nextState = copy(nowState);
       nextState.stretchId = succesors[succesorsKey];
-      nextState.time += Stretch.getTime(nextState.stretchId,nowState.time);
-      if(Stretch.getParameter(nextState.stretchId, "vmax") >=  Stretch.getParameter(nextState.stretchId, "k") / Stretch.getPeople(nextState.stretchId,nowState.time)){
-        //estem en congestio
-        nextState.cost += Stretch.getTime(nextState.stretchId,nowState.time)
-        + Stretch.getPeople(nextState.stretchId,nowState.time)
-        * Stretch.getParameter(nextState.stretchId, "long") / Stretch.getParameter(nextState.stretchId, "k");
-      } else
-      {
-        nextState.cost += Stretch.getTime(nextState.stretchId,nowState.time);
-      }
+      if(!(nextState.stretchId in visitats)){
+        visitats[nextState.stretchId] = true;
+        nextState.time += Stretch.getTime(nextState.stretchId,nowState.time);
+        if(Stretch.getParameter(nextState.stretchId, "vmax") >=  Stretch.getParameter(nextState.stretchId, "k") / Stretch.getPeople(nextState.stretchId,nowState.time)){
+          //estem en congestio
+          nextState.cost += Stretch.getTime(nextState.stretchId,nowState.time)
+          + Stretch.getPeople(nextState.stretchId,nowState.time)
+          * Stretch.getParameter(nextState.stretchId, "long") / Stretch.getParameter(nextState.stretchId, "k");
+        } else
+        {
+          nextState.cost += Stretch.getTime(nextState.stretchId,nowState.time);
+        }
 
-      nextState.way.push(nowState.stretchId);
-      //console.log(nextState);
-      heap.push(nextState);
+        nextState.way.push(nowState.stretchId);
+      
+        //console.log(nextState);
+        heap.push(nextState);
+      }
     }
   }
     console.log('finishing solve');
