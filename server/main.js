@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-myparser.paseMap();
+myparser.parseMap();
+
 
 db.connect();
 
@@ -25,20 +26,31 @@ http.listen(3000, function(){
 });
 
 app.get('/login', function(req,res){
-	var user_id = req.param('id');
+console.log(req.query);
+  var user_id = req.query.id;
+  console.log(user_id);
 	state.getUserInfo(user_id, function(info){
 		res.json(info);
 	});
+  res.json({});
 });
 //NO COMPROVAT
 app.get('/initRoute', function(req, res){
-	var pos_ini = req.body.pos_ini;
-	var pos_fi = req.body.pos_fi;
-	var user_id = req.param('id');
+	var pos_ini = req.query.pos_ini;
+	var pos_fi = req.query.pos_fi;
+	var user_id = req.query.id;
+  console.log(req.query);
   state.clearRouteUser(user_id);
   var ret = stretch.getNearestStretchs(pos_ini,pos_fi);
+  console.log('calling solver :' + ret.stringify());
   var route = planner.solve(ret.ini, ret.fi);
+  console.log(route);
 	res.json(route);
+});
+
+app.get('/getAllRoutes', function(req, res){
+  console.log(state.currentState);
+	res.json(state.currentState);
 });
 
 app.post('/chooseRoute', function(req, res){

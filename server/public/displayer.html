@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 95%;
+      }
+      #slider_div {
+        height: 5%;
+        width:100%;
+      }
+      #slider {
+        width:90%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="slider_div">
+      <input id="slider" type="range" min="0" max="60" step="5" />
+    </div>
+    <div id="map"></div>
+    <script>
+
+      // This example creates a 2-pixel-wide red polyline showing the path of William
+      // Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
+      // Brisbane, Australia.
+
+
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+//          center: {lat: 0, lng: -180},
+          mapTypeId: 'terrain'
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:3000/getAllRoutes');
+        //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+          var result = JSON.parse(xhr.responseText);
+          console.log(result);
+          for (var userkey in result)
+          {
+            //    currentState[idUser].route = {idUser : idUser, points : points, balance : balance};
+            var user = result[userkey];
+            var line = [];
+            for (var pointkey in points){
+              var point = {};
+              point.lat = points[pointkey].latitude;
+              point.lng = points[pointkey].longitude;
+              line.push(point);
+            }
+            var auxPolyline = new google.maps.Polyline({
+              path: line,
+              geodesic: true,
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2
+            });
+
+            auxPolyline.setMap(map);
+
+
+          }
+
+        }
+        xhr.send("");
+
+/*
+        var flightPlanCoordinates = [
+          {lat: 37.772, lng: -122.214},
+          {lat: 21.291, lng: -157.821},
+          {lat: -18.142, lng: 178.431},
+          {lat: -27.467, lng: 153.027}
+        ];
+        var flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+        */
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv2vU_JkicvfDGEO1sKE41z516lKM8TBc&callback=initMap">
+    </script>
+  </body>
+</html>

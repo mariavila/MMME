@@ -19,12 +19,13 @@ function distancef(loc1,loc2)
 }
 
 
-var solve = function solve(begin,  end){
+var solve = function (begin,  end){
+  console.log('starting solve');
   var heap = new Heap(function(a, b) {
     return totalCost(a,end) - totalCost(b,end);
   });
 
-  var firstState = {}:
+  var firstState = {};
   firstState.cost = 0;
   firstState.time = 0;
   firstState.stretchId = begin;
@@ -48,10 +49,13 @@ var solve = function solve(begin,  end){
       {
         nextState.cost += Stretch.getTime(nextState.stretchId,nowState.time);
       }
+
       nextState.way.push(nowState.stretchId);
+      console.log(nextState);
       heap.push(nextState);
     }
   }
+    console.log('finishing solve');
   if ( !heap.empty() ) return heap.pop().way;
   return -1;
 }
@@ -63,7 +67,7 @@ function copy(aux) {
 }
 
 
-module.exports.solve = solve;
+exports.solve = solve;
 
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
 

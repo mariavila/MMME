@@ -5,7 +5,8 @@ var fs = require('fs'),
     var stretch = require('./stretch');
 
 var parser = new xml2js.Parser();
-var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
+var parseMap = function () {
+  fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
     parser.parseString(data, function (err, result) {
         var nodeDict = {};
         var tramDict = {};
@@ -25,7 +26,9 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
                 }
                 if (auxway.tag[i].$.k == "lanes") lanes1 = auxway.tag[i].$.v;
                 if (auxway.tag[i].$.k == "maxspeed") vmax = auxway.tag[i].$.v;
-                if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "yes") {dual = true; console.log("yee");}
+                if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "yes") {dual = true;
+                  //console.log("yee");
+                }
             }
             if (vmax == 0) vmax = 50;
             if (dual) {
@@ -69,7 +72,7 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
                     newTram.vmax = vmax;
                     newTram.lanes = lanes2;
                     tramDict[id] = newTram;
-                    
+
                     nodeDict[auxway.nd[i+1].$.ref].out.push(id);
                 }
             }
@@ -100,9 +103,11 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
             tramDict[tramkey].out = node2.out;
         }
 
-        console.log('Done');
+        console.log('Done parsing');
     });
 });
+
+}
 
 //Totally not functions from the internet
 function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
