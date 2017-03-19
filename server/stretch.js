@@ -16,7 +16,7 @@ var insert = function(id, pos, vmax, long, lanes, nextsStretchs) {
         lanes : lanes, nextsStretchs : nextsStretchs};
 
     //calculate k constant
-    var k = vmax * long * lanes/(3 * vmax/(16 * 3600/1000) + 3);
+    var k = vmax * long * lanes/(3 * vmax/(16 / 3.6) + 3);
     stretch.k = k;
 
     //add sorted start times
@@ -137,7 +137,7 @@ var getTime = function(idScretch, time) {
 
     var stretch = stretchs[idScretch];
 
-    if(numPeople == 0) numPeople = 1; //no vull dividir per 0
+    if(numPeople == 0) numPeople = 0.001; //no vull dividir per 0
     return stretch.long/Math.min(stretch.vmax, stretch.k/numPeople);
 }
 exports.getTime = getTime;

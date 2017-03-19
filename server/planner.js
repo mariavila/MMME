@@ -1,9 +1,10 @@
 var Heap = require('heap');
 var Stretch = require('./stretch.js');
-const MEANSPEED = 40.0 * 3600 / 1000;
+const MEANSPEED = 40.0 / 3.6;
 
 function totalCost(state, end) {
-  return expectedCost(state, end) + state.cost;
+  var e =expectedCost(state, end) ;
+  return e + state.cost;
 }
 
 function expectedCost(state,end) {
