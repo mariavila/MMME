@@ -1,7 +1,6 @@
 var sortedArray = require("sorted-array");
 
 var stretchs = {};
-var lastId = 0;
 
 var orderStartDate = function(x, y) {
     return x.startTime - y.startTime;
@@ -11,9 +10,9 @@ var orderEndDate = function(x, y) {
     return x.endTime - y.endTime;
 }
 
-var insert = function(pos, vmax, long, lanes, nextsStretchs) {
+var insert = function(id, pos, vmax, long, lanes, nextsStretchs) {
 
-    var stretch = {id: lastId, pos : pos, vmax : vmax, long : long,
+    var stretch = {id: id, pos : pos, vmax : vmax, long : long,
         lanes : lanes, nextsStretchs : nextsStretchs};
 
     //calculate k constant
@@ -27,8 +26,7 @@ var insert = function(pos, vmax, long, lanes, nextsStretchs) {
     //add id map reference
     stretch.reference = {};
 
-    stretchs[lastId] = stretch;
-    lastId++;
+    stretchs[id] = stretch;
 }
 exports.insert = insert;
 
