@@ -60,6 +60,12 @@ var getUserInfo = function(idUser, done) {
         if(result.length == 0) {
             console.log("idUser does not exists, creating it: " + idUser);
             db.insertToDb("user", {id : idUser, balance : 0});
+
+            var info = {idClient : idUser, balance : 0};
+
+            currentState[idUser] = {info : {}, route : {}};
+            currentState[idUser].info = info;
+
             done({idClient : idUser, balance : 0});
             return;
         }
