@@ -33,9 +33,6 @@ var insert = function(pos, vmax, long, lanes, nextsStretchs) {
 exports.insert = insert;
 
 var insertRoute = function(id, points) {
-    //clear previous routes for this user
-    clearRoute(id);
-
     var updateTime = 0;
 
     for(i in points) {
@@ -58,8 +55,10 @@ var insertRoute = function(id, points) {
 }
 exports.insertRoute = insertRoute;
 
-var clearRoute = function(id) {
-
+var clearRoute = function(id, deletedPoints) {
+    for(var i in deletedPoints) {
+        deletePoint(id, deletePoints[i]);
+    }
 }
 exports.clearRoute = clearRoute;
 
@@ -72,6 +71,7 @@ var deletePoint = function(id, idStretch) {
     stretch.orderEndDate.remove(delObj);
     delete stretch.reference[id];
 }
+exports.deletePoint = deletePoint;
 
 //retorna el primer index que compleix array[index].startTime >= time
 function dicotomicSearchS (array, value ){
@@ -135,8 +135,11 @@ exports.getParameter = getParameter;
 
 var getTime = function(idScretch, time) {
     var numPeople = getPeople(idScretch, time);
+
+    var scretch = scretchs[idScretch];
+
     if(numPeople == 0) numPeople = 1; //no vull dividir per 0
-    return long/min(vmax, k/numPeople);
+    return scretch.long/min(scretch.vmax, scretch.k/numPeople);
 }
 exports.getTime = getTime;
 

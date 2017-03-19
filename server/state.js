@@ -1,4 +1,5 @@
 var db = require('./db');
+var stretch = require('./stretch');
 
 var currentState = {};
 
@@ -7,6 +8,11 @@ var currentState = {};
 var deletePoints = function(route, routePoint) {
     var index = route.points.indexOf(routePoint);
     if (index > -1) {
+        //clear points
+        var deletedPoints =  route.points.slice(0, index + 1);
+        stretch.clearRoute(route, deletedPoints);
+
+        //update route points
         route.points = route.points.slice(index + 1, route.points.length);
     }
 }
@@ -37,6 +43,12 @@ var updatePoint = function(idUser, routePoint) {
     
     return ret;
 }
+
+var clearRouteUser = function(idUser) {
+    var points = currentState[idUser].route.points;
+    stretch.clearRoute(idUser, points);
+}
+
 
 
 /* USER MANAGMENT */
@@ -76,3 +88,4 @@ var setNewBalance = function(idUser, balance) {
 exports.insertUserRoute = insertUserRoute;
 exports.updatePoint = updatePoint;
 exports.getUserInfo = getUserInfo;
+exports.clearRouteUser = clearRouteUser;
