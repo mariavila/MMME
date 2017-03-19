@@ -49,8 +49,6 @@ var clearRouteUser = function(idUser) {
     stretch.clearRoute(idUser, points);
 }
 
-
-
 /* USER MANAGMENT */
 
 var getUserInfo = function(idUser, done) {

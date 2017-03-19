@@ -143,8 +143,7 @@ var getTime = function(idScretch, time) {
 }
 exports.getTime = getTime;
 
-
-var getNearestStretchs =  getNearestStretchs (pos_ini,pos_fi) {
+var getNearestStretchs = function(pos_ini, pos_fi) {
   var sIni = {};
   var sFi = {};
   var first = true;
