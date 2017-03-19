@@ -108,6 +108,7 @@ var parseMap = function () {
             pos.latitude = tram.latitude;
             pos.longitude = tram.longitude;
             stretch.insert(tramkey, pos, tram.vmax, tram.distance, tram.lanes, tram.out)
+            //if (tram.nodeF == "258359283") console.log(tram); 
         }
 
         console.log('Done');
@@ -135,3 +136,4 @@ function deg2rad(deg) {
 }
 
 exports.parseMap = parseMap;
+//parseMap();
