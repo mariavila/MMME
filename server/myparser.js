@@ -9,17 +9,24 @@ fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
     parser.parseString(data, function (err, result) {
         var nodeDict = {};
         var tramDict = {};
+
+        //First Loop, setting some constants and creating nodes
         for(var waykey in result.osm.way){
             var auxway = result.osm.way[waykey];
-            var vmax = 50;
-            var lanes = 2;
+            var vmax = 0;
+            var lanes = 1;
+            var dual = false;
 
             for (var i = 0; i < auxway.tag.length; ++i){
+                if (auxway.tag[i].$.k == "highway") {
+                    if (auxway.tag[i].$.v == "residential" && vmax == 0) vmax = 30;
+                }
                 if (auxway.tag[i].$.k == "lanes") lanes = auxway.tag[i].$.v;
                 if (auxway.tag[i].$.k == "maxspeed") vmax = auxway.tag[i].$.v;
+                if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "yes") {dual = true; console.log("yee");}
             }
+            if (vmax == 0) vmax = 50;
 
-            //console.log(auxway);
             for (var i = 0; i < auxway.nd.length -1; ++i) {
                 var newTram = {};
                 var id = auxway.nd[i].$.ref + '-' + auxway.nd[i+1].$.ref;
@@ -46,6 +53,7 @@ fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
             }
         }
 
+        //Second Loop, setting latitudes and longitudes of the nodes
         for (var nodeKey in result.osm.node){
             var auxnode = result.osm.node[nodeKey].$;
             if (auxnode.id in nodeDict){
@@ -54,6 +62,7 @@ fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
             }
         }
 
+        //Third and last Loop, completing the info in TramDict
         for(var tramkey in tramDict){
             var node1 = nodeDict[tramDict[tramkey].nodeI];
             var node2 = nodeDict[tramDict[tramkey].nodeF];
