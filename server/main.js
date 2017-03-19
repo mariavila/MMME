@@ -11,6 +11,9 @@ var planner = require('./planner');
 var myparser = require('./myparser');
 app.use(express.static('public'));
 
+app.set('views', __dirname + "/views");
+app.engine('html', require('ejs').renderFile);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -28,7 +31,7 @@ console.log(req.query);
   var user_id = req.query.id;
   console.log(user_id);
 	state.getUserInfo(user_id, function(info){
-		res.json(info);
+		res.render('geocoding.html', info);
 	});
 });
 //NO COMPROVAT
