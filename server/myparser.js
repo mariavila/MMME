@@ -5,7 +5,7 @@ var fs = require('fs'),
     var stretch = require('./stretch');
 
 var parser = new xml2js.Parser();
-fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
+var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
     parser.parseString(data, function (err, result) {
         var nodeDict = {};
         var tramDict = {};
@@ -98,3 +98,5 @@ function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
+
+exports.parseMap = parseMap;
