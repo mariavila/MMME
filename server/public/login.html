@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html>
-<style>
-#container{
-  align: "center"
-}
-#enter_user{
-  margin : 3%
-}
-
-#but_submit{
-    margin : 3%
-}
-
-</style>
-  <div id="container">
-    <form class="login" action = "/login" method="get">
-        <input type="text" id = "enter_user" placeholder="Username"> <br>
-        <input type ="submit" id = "but_submit" value="Submit">
-    </form>
-</div>
+<head>
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+  <div class="container">
+    <div class="card card-container">
+      <form class="form-signin">
+          <span id="reauth-email" class="reauth-email"></span>
+          <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+          <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
 </html>
