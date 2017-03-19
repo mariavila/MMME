@@ -7,6 +7,8 @@ var state = require('./state');
 var db = require('./db');
 var stretch = require('./stretch');
 var planner = require('./planner');
+
+var myparser = require('./myparser');
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
