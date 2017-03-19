@@ -41,6 +41,7 @@ var solve = function (begin,  end){
     {
       var nextState = copy(nowState);
       nextState.stretchId = succesors[succesorsKey];
+      console.log(Stretch.getParameter(nextState.stretchId, "k"));
       if(!(nextState.stretchId in visitats)){
         visitats[nextState.stretchId] = true;
         nextState.time += Stretch.getTime(nextState.stretchId,nowState.time);
