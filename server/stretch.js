@@ -82,7 +82,8 @@ function dicotomicSearchS (array, value ){
       else if (array[index].startTime > value) high = index;
       else return high = low;
   }
-  while (index >= 0  && array[index].startTime >= time ) --index;
+
+  while (index >= 0  && index < array.length  && array[index].startTime >= time ) --index;
   ++index;
   return index;
 }
@@ -98,7 +99,7 @@ function dicotomicSearchE (array, value ){
       else if (array[index].endTime > value) high = index;
       else return high = low;
   }
-  while (index < array.length && array[index].endTime <= time ) ++index;
+  while (index >= 0  && index < array.length && array[index].endTime <= time ) ++index;
   --index;
   return index;
 }
@@ -113,7 +114,7 @@ var getPeople = function(idScretch, time) {
     {
       var obj = byStartDate[objKey];
       var index = dicotomicSearchE(byEndDate, obj.endTime);
-      while (index >= 0 && byEndDate[index].endTime == obj.endTime)
+      while (index >= 0  && index < array.length && byEndDate[index].endTime == obj.endTime)
       {
         if ( obj == byEndDate[index] ){
           numPeople++;
@@ -134,10 +135,10 @@ exports.getParameter = getParameter;
 var getTime = function(idScretch, time) {
     var numPeople = getPeople(idScretch, time);
 
-    var scretch = scretchs[idScretch];
+    var stretch = stretchs[idScretch];
 
     if(numPeople == 0) numPeople = 1; //no vull dividir per 0
-    return scretch.long/min(scretch.vmax, scretch.k/numPeople);
+    return stretch.long/Math.min(stretch.vmax, stretch.k/numPeople);
 }
 exports.getTime = getTime;
 
