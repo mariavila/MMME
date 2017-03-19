@@ -23,6 +23,7 @@
   <script>
 
     var route = JSON.parse('<%- JSON.stringify(route) %>');
+    var benefit = "<%= benefit %>";
 
     var waypoints = [];
 
@@ -52,7 +53,7 @@
       },
       router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
       formatter: new L.Routing.mapzenFormatter(),
-      summaryTemplate:'<div class="start">{name}</div><div class="info {costing}">{distance}, {time}</div>',
+      summaryTemplate:'<strong>Fastest route</strong><div>Benefit : 0 </div><div class="info {costing}">{distance}, {time}</div>',
       routeWhileDragging: false
     }).addTo(map);
 
@@ -71,7 +72,7 @@
       },
       router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
       formatter: new L.Routing.mapzenFormatter(),
-      summaryTemplate:'<div class="start">{name}</div><div class="info {costing}">{distance}, {time}</div>',
+      summaryTemplate:'<strong>Optimal route</strong><div>Benefit : '+ benefit +'</div><div class="info {costing}">{distance}, {time}</div>',
       routeWhileDragging: false
     }).addTo(map);
 

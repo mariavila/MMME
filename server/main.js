@@ -61,7 +61,7 @@ app.get('/initRoute', function(req, res){
 
   	console.log(JSON.stringify(newRoute));
   
-	res.render('index.html', {route : newRoute});
+	res.render('index.html', {route : newRoute, benefit : route.money});
 });
 
 app.get('/getAllRoutes', function(req, res){
