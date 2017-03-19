@@ -11,6 +11,9 @@ var planner = require('./planner');
 var myparser = require('./myparser');
 app.use(express.static('public'));
 
+app.set('views', __dirname + "/views");
+app.engine('html', require('ejs').renderFile);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -28,7 +31,7 @@ console.log(req.query);
   var user_id = req.query.id;
   console.log(user_id);
 	state.getUserInfo(user_id, function(info){
-		res.json(info);
+		res.render('geocoding.html', info);
 	});
 });
 //NO COMPROVAT
@@ -39,7 +42,7 @@ app.get('/initRoute', function(req, res){
   console.log(req.query);
   state.clearRouteUser(user_id);
   var ret = stretch.getNearestStretchs(pos_ini,pos_fi);
-  console.log('calling solver :' + ret.stringify());
+  console.log('calling solver :' + JSON.stringify(ret));
   var route = planner.solve(ret.ini, ret.fi);
   console.log(route);
 	res.json(route);
