@@ -51,7 +51,7 @@ var solve = function (begin,  end){
       }
 
       nextState.way.push(nowState.stretchId);
-      console.log(nextState);
+      //console.log(nextState);
       heap.push(nextState);
     }
   }

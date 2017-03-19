@@ -20,14 +20,14 @@ var parseMap = function () {
             //Tag treatment
             for (var i = 0; i < auxway.tag.length; ++i){
                 if (auxway.tag[i].$.k == "highway") {
-                    if (auxway.tag[i].$.v == "residential" && vmax == 0) vmax = 30;
+                    if (auxway.tag[i].$.v == "residential" && vmax == 0) vmax = 30 / 3.6;
                 }
                 if (auxway.tag[i].$.k == "lanes") lanes1 = auxway.tag[i].$.v;
-                if (auxway.tag[i].$.k == "maxspeed") vmax = auxway.tag[i].$.v;
+                if (auxway.tag[i].$.k == "maxspeed") vmax = auxway.tag[i].$.v / 3.6;
                 if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "no") dual = true;
             }
             
-            if (vmax == 0) vmax = 50;
+            if (vmax == 0) vmax = 50 / 3.6;
             if (dual) {
                 lanes2 = lanes1 - Math.round(lanes1/2);
                 lanes1 = Math.round(lanes1/2);
@@ -90,9 +90,8 @@ var parseMap = function () {
             var node2 = nodeDict[tramDict[tramkey].nodeF];
 
             var distance = getDistanceFromLatLonInM(node1.latitude, node1.longitude, node2.latitude, node2.longitude);
-            var lat = (node1.latitude + node2.latitude)/2;
-            var long = (node1.longitude + node2.longitude)/2;
-
+            var lat = (+node1.latitude + +node2.latitude)/2;
+            var long = (+node1.longitude + +node2.longitude)/2;
             tramDict[tramkey].distance = distance;
             tramDict[tramkey].latitude = lat;
             tramDict[tramkey].longitude = long;
@@ -108,7 +107,6 @@ var parseMap = function () {
             var pos = {};
             pos.latitude = tram.latitude;
             pos.longitude = tram.longitude;
-
             stretch.insert(tramkey, pos, tram.vmax, tram.distance, tram.lanes, tram.out)
         }
 

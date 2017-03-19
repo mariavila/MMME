@@ -150,6 +150,7 @@ var getNearestStretchs = function(pos_ini, pos_fi) {
     var obj = stretchs[objKey];
     if (first){
       sIni.key = objKey;
+      console.log(JSON.stringify(pos_ini) +"   " + JSON.stringify(obj) )
       sIni.distance = distancef(pos_ini, obj.pos);
       sFi.key = objKey;
       sFi.distance = distancef(pos_fi, obj.pos);
@@ -165,6 +166,7 @@ var getNearestStretchs = function(pos_ini, pos_fi) {
       sFi.distance = distancef(pos_fi, obj.pos);
     }
   }
+  console.log(JSON.stringify(sIni));
   var ret = {};
   ret.ini = sIni.key;
   ret.fi = sFi.key;
