@@ -152,7 +152,9 @@ var getNearestStretchs = function(pos_ini, pos_fi) {
       sIni.distance = distancef(pos_ini, obj.pos);
       sFi.key = objKey;
       sFi.distance = distancef(pos_fi, obj.pos);
+      first=false;
     }
+
     if (distancef(pos_ini, obj.pos) < sIni.distance){
       sIni.key = objKey;
       sIni.distance = distancef(pos_ini, obj.pos);

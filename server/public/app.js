@@ -1,6 +1,11 @@
 
 function routeView(view) {
-    var html = 
-
-    $("#container").innerHtml(html);
+  $.ajax({
+    url: "/geocoding.html",
+  })
+    .done(function( html ) {
+        $("#container").innerHtml(html);
+    });
 }
+
+window.routeView = routeView;
