@@ -65,8 +65,17 @@ app.get('/initRoute', function(req, res){
 });
 
 app.get('/getAllRoutes', function(req, res){
-  console.log(state.currentState);
-	res.json(state.currentState);
+	var routes = [];
+  for(var userskey in state.currentState){
+	  var user = state.currentState[userskey];
+	  var route = user.route;
+	  var newRoute = [];
+	  for(var i in route.way) {
+			newRoute.push(stretch.getParameter(route.way[i], "pos"));
+	  }
+	  routes.push(newRoute);
+  }
+  res.json(routes);
 });
 
 app.post('/chooseRoute', function(req, res){
