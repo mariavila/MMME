@@ -32,7 +32,6 @@ console.log(req.query);
 	state.getUserInfo(user_id, function(info){
 		res.json(info);
 	});
-  res.json({});
 });
 //NO COMPROVAT
 app.get('/initRoute', function(req, res){
