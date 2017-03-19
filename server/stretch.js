@@ -24,6 +24,8 @@ var insert = function(pos, vmax, long, lanes, nextsStretchs) {
     stretch.orderStartDate = new sortedArray([], orderStartDate());
     //add soreted end times
     stretch.orderEndDate = new sortedArray([], orderEndDate());
+    //add id map reference
+    stretch.reference = {};
 
     stretchs[lastId] = stretch;
     lastId++;
@@ -32,6 +34,7 @@ exports.insert = insert;
 
 var insertRoute = function(id, points) {
     //clear previous routes for this user
+    clearRoute(id);
 
     var updateTime = 0;
 
@@ -43,13 +46,31 @@ var insertRoute = function(id, points) {
 
         //save new time
         var obj = {startTime : updateTime, endTime : time, idUser : id};
+        stretch = stretchs[point];
         stretch.orderStartDate.insert(obj);
         stretch.orderEndDate.insert(obj);
+        stretch.reference.id = obj;
 
         updateTime = time;
     }
 
     //propagate if wanted
+}
+exports.insertRoute = insertRoute;
+
+var clearRoute = function(id) {
+
+}
+exports.clearRoute = clearRoute;
+
+var deletePoint = function(id, idStretch) {
+
+    var delObj = stretch.reference[id];
+    var stretch = stretchs[idStretch]; 
+
+    stretch.orderStartDate.remove(delObj);
+    stretch.orderEndDate.remove(delObj);
+    delete stretch.reference[id];
 }
 
 var getPeople = function(idScretch, time) {
