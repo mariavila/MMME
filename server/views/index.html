@@ -21,6 +21,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.0.0/leaflet-routing-machine.min.js"></script>
   <script src="https://unpkg.com/lrm-mapzen/dist/lrm-mapzen.js"></script>
   <script>
+
+    var route = JSON.parse('<%= route %>');
+
+    var waypoints = [];
+
+    for(var i in route) {
+      var waypoint = routes[i];
+      waypoints.push(L.latLng(waypoint.latitude, waypoint.longitude));
+    }
+
     var map = L.map('map');
     var layer = Tangram.leafletLayer({
       scene: 'https://raw.githubusercontent.com/tangrams/cinnabar-style/gh-pages/cinnabar-style.yaml',
@@ -29,11 +39,7 @@
     layer.addTo(map);
     //map.setView([41.8758,-87.6189], 16);
     L.Routing.control({
-      waypoints: [
-        L.latLng(41.388083,2.115356),
-        L.latLng(41.388990,2.089056),
-        L.latLng(41.436626,2.006980)
-      ],
+      waypoints: waypoints,
       lineOptions: {
         styles: [ {color: 'white',opacity: 0.8, weight: 12},
                 {color: '#2676C6', opacity: 1, weight: 6}
@@ -43,28 +49,6 @@
         {
   					opacity: 0
 				});
-      },
-      router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
-      formatter: new L.Routing.mapzenFormatter(),
-      summaryTemplate:'<div class="start">{name}</div><div class="info {costing}">{distance}, {time}</div>',
-      routeWhileDragging: false
-    }).addTo(map);
-
-    // direct
-    L.Routing.control({
-      waypoints: [
-        L.latLng(41.388083,2.115356),
-        L.latLng(41.436626,2.006980)
-      ],
-      lineOptions: {
-        styles: [ {color: 'white',opacity: 0.8, weight: 12},
-                {color: '#ff9900', opacity: 1, weight: 6}
-      ]},
-      createMarker: function(i, wp) {
-        return L.marker(wp.latLng,
-        {
-            opacity: 0
-        });
       },
       router: L.Routing.mapzen('mapzen-uwLUMVc', {costing:'auto'}),
       formatter: new L.Routing.mapzenFormatter(),

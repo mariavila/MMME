@@ -49,7 +49,19 @@ app.get('/initRoute', function(req, res){
   console.log('calling solver :' + JSON.stringify(ret));
   var route = planner.solve(ret.ini, ret.fi);
   console.log(route);
-	res.json(route);
+
+  var newRoute = [];
+  var count = 0;
+  for(var i in route.way) {
+	if(count%5 == 0){
+		newRoute.push(stretch.getParameter(route.way[i], "pos"));
+	}
+	count++;
+  }
+
+  	console.log(newRoute);
+  
+	res.render('index.html', {route : JSON.stringify(newRoute)});
 });
 
 app.get('/getAllRoutes', function(req, res){
