@@ -9,17 +9,31 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
     parser.parseString(data, function (err, result) {
         var nodeDict = {};
         var tramDict = {};
+
+        //First Loop, setting some constants and creating nodes
         for(var waykey in result.osm.way){
             var auxway = result.osm.way[waykey];
-            var vmax = 50;
-            var lanes = 2;
+            var vmax = 0;
+            var lanes1 = 1;
+            var lanes2 = 1;
+            var dual = false;
 
+            //Tag treatment
             for (var i = 0; i < auxway.tag.length; ++i){
-                if (auxway.tag[i].$.k == "lanes") lanes = auxway.tag[i].$.v;
+                if (auxway.tag[i].$.k == "highway") {
+                    if (auxway.tag[i].$.v == "residential" && vmax == 0) vmax = 30;
+                }
+                if (auxway.tag[i].$.k == "lanes") lanes1 = auxway.tag[i].$.v;
                 if (auxway.tag[i].$.k == "maxspeed") vmax = auxway.tag[i].$.v;
+                if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "yes") {dual = true; console.log("yee");}
+            }
+            if (vmax == 0) vmax = 50;
+            if (dual) {
+                lanes2 = lanes1 - Math.round(lanes1/2);
+                lanes1 = Math.round(lanes1/2);
             }
 
-            //console.log(auxway);
+            //Nodes treatment
             for (var i = 0; i < auxway.nd.length -1; ++i) {
                 var newTram = {};
                 var id = auxway.nd[i].$.ref + '-' + auxway.nd[i+1].$.ref;
@@ -27,7 +41,7 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
                 newTram.nodeI = auxway.nd[i].$.ref;
                 newTram.nodeF = auxway.nd[i+1].$.ref;
                 newTram.vmax = vmax;
-                newTram.lanes = lanes;
+                newTram.lanes = lanes1;
                 tramDict[id] = newTram;
                 if (auxway.nd[i].$.ref in nodeDict){
                     nodeDict[auxway.nd[i].$.ref].out.push(id);
@@ -44,8 +58,24 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
                     newNode.out = [];
                     nodeDict[auxway.nd[auxway.nd.length -1].$.ref] = newNode;
             }
+
+            if (dual){
+                for (var i = 0; i < auxway.nd.length -1; ++i) {
+                    var newTram = {};
+                    var id = auxway.nd[i+1].$.ref + '-' + auxway.nd[i].$.ref;
+
+                    newTram.nodeI = auxway.nd[i+1].$.ref;
+                    newTram.nodeF = auxway.nd[i].$.ref;
+                    newTram.vmax = vmax;
+                    newTram.lanes = lanes2;
+                    tramDict[id] = newTram;
+                    
+                    nodeDict[auxway.nd[i+1].$.ref].out.push(id);
+                }
+            }
         }
 
+        //Second Loop, setting latitudes and longitudes of the nodes
         for (var nodeKey in result.osm.node){
             var auxnode = result.osm.node[nodeKey].$;
             if (auxnode.id in nodeDict){
@@ -54,6 +84,7 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
             }
         }
 
+        //Third and last Loop, completing the info in TramDict
         for(var tramkey in tramDict){
             var node1 = nodeDict[tramDict[tramkey].nodeI];
             var node2 = nodeDict[tramDict[tramkey].nodeF];
@@ -73,6 +104,7 @@ var parseMap = fs.readFile(__dirname + '/finalMap2.osm', function(err, data) {
     });
 });
 
+//Totally not functions from the internet
 function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
