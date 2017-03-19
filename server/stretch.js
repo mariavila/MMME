@@ -20,9 +20,9 @@ var insert = function(id, pos, vmax, long, lanes, nextsStretchs) {
     stretch.k = k;
 
     //add sorted start times
-    stretch.orderStartDate = new sortedArray([], orderStartDate());
+    stretch.orderStartDate = new sortedArray([], orderStartDate);
     //add soreted end times
-    stretch.orderEndDate = new sortedArray([], orderEndDate());
+    stretch.orderEndDate = new sortedArray([], orderEndDate);
     //add id map reference
     stretch.reference = {};
 
