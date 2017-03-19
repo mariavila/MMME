@@ -1,6 +1,6 @@
 var Heap = require('heap');
 var Stretch = require('./stretch.js');
-const MEANSPEED = 40.0 / 3.6;
+const MEANSPEED = 15.0 / 3.6;
 
 function totalCost(state, end) {
   var e =expectedCost(state, end) ;
@@ -41,8 +41,7 @@ var solve = function (begin,  end){
     {
       var nextState = copy(nowState);
       nextState.stretchId = succesors[succesorsKey];
-      if(!(nextState.stretchId in visitats)){
-        visitats[nextState.stretchId] = true;
+
         nextState.time += Stretch.getTime(nextState.stretchId,nowState.time);
         if(Stretch.getParameter(nextState.stretchId, "vmax") >=  Stretch.getParameter(nextState.stretchId, "k") / Stretch.getPeople(nextState.stretchId,nowState.time)){
           //estem en congestio
@@ -54,18 +53,25 @@ var solve = function (begin,  end){
           nextState.cost += Stretch.getTime(nextState.stretchId,nowState.time);
         }
 
-        nextState.way.push(nowState.stretchId);
-      
-        //console.log(nextState);
-        heap.push(nextState);
+
+        if(!(nextState.stretchId in visitats)){
+          visitats[nextState.stretchId] = nextState.cost;
+          nextState.way.push(nowState.stretchId);
+          heap.push(nextState);
+        }
+        if (visitats[nextState.stretchId] > nextState.cost)
+        {
+          visitats[nextState.stretchId] = nextState.cost;
+          nextState.way.push(nowState.stretchId);
+          heap.push(nextState);
+        }
       }
-    }
   }
     console.log('finishing solve');
     var retur = {};
     retur.way = [];
     if ( !heap.empty() ){
-      
+
         retur.way = heap.peek().way;
         retur.status = 0;
         retur.time = heap.peek().time;
