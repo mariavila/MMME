@@ -172,6 +172,25 @@ var getNearestStretchs = function(pos_ini, pos_fi) {
 
 exports.getNearestStretchs = getNearestStretchs;
 
+var getNearestStretch = function(pos_ini) {
+  var sIni = {};
+  var first = true;
+  for (var objKey in stretchs){
+    var obj = stretchs[objKey];
+    if (first){
+      sIni.key = objKey;
+      sIni.distance = distancef(pos_ini, obj.pos);
+    }
+    if (distancef(pos_ini, obj.pos) < sIni.distance){
+      sIni.key = objKey;
+      sIni.distance = distancef(pos_ini, obj.pos);
+    }
+  }
+  return sIni.key;
+}
+
+exports.getNearestStretch = getNearestStretch;
+
 
 function distancef(loc1,loc2)
 {
