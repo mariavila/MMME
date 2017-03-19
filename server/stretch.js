@@ -144,6 +144,65 @@ var getTime = function(idScretch, time) {
 exports.getTime = getTime;
 
 
+var getNearestStretchs =  getNearestStretchs (pos_ini,pos_fi) {
+  var sIni = {};
+  var sFi = {};
+  var first = true;
+  for (var objKey in stretchs){
+    var obj = stretchs[objKey];
+    if (first){
+      sIni.key = objKey;
+      sIni.distance = distancef(pos_ini, obj.pos);
+      sFi.key = objKey;
+      sFi.distance = distancef(pos_fi, obj.pos);
+    }
+    if (distancef(pos_ini, obj.pos) < sIni.distance){
+      sIni.key = objKey;
+      sIni.distance = distancef(pos_ini, obj.pos);
+    }
+    if(distancef(pos_fi, obj.pos) < sFi.distance){
+      sFi.key = objKey;
+      sFi.distance = distancef(pos_fi, obj.pos);
+    }
+  }
+  var ret = {};
+  ret.ini = sIni.key;
+  ret.fi = sFi.key;
+  return ret;
+}
+
+exports.getNearestStretchs = getNearestStretchs;
+
+
+function distancef(loc1,loc2)
+{
+  return calcCrow(loc1.longitude, loc1.latitude, loc2.longitude, loc2.latitude);
+}
+
+//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+
+function calcCrow(lat1, lon1, lat2, lon2)
+{
+  var R = 6371; // km
+  var dLat = toRad(lat2-lat1);
+  var dLon = toRad(lon2-lon1);
+  var lat1 = toRad(lat1);
+  var lat2 = toRad(lat2);
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c;
+  return d;
+}
+
+// Converts numeric degrees to radians
+
+function toRad(Value)
+{
+    return Value * Math.PI / 180;
+}
+
+
 function copy(aux) {
   return(JSON.parse(JSON.stringify(aux)));
 }

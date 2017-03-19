@@ -34,7 +34,7 @@ var solve = function solve(begin,  end){
   while(!heap.empty() && heap.peek() != end){
     var nowState = heap.pop();
     var succesors = Stretch.getParameter(nowState.stretchId, "nextsStretchs");
-    for (succesorsKey in succesors)
+    for (var succesorsKey in succesors)
     {
       var nextState = copy(nowState);
       nextState.stretchId = succesors[succesorsKey];
