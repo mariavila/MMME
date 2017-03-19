@@ -1,8 +1,6 @@
 var fs = require('fs'),
-    xml2js = require('xml2js');
-
-
-    var stretch = require('./stretch');
+xml2js = require('xml2js');
+var stretch = require('./stretch');
 
 var parser = new xml2js.Parser();
 var parseMap = function () {
@@ -26,10 +24,9 @@ var parseMap = function () {
                 }
                 if (auxway.tag[i].$.k == "lanes") lanes1 = auxway.tag[i].$.v;
                 if (auxway.tag[i].$.k == "maxspeed") vmax = auxway.tag[i].$.v;
-                if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "yes") {dual = true;
-                  //console.log("yee");
-                }
+                if (auxway.tag[i].$.k == "oneway" && auxway.tag[i].$.v == "no") dual = true;
             }
+            
             if (vmax == 0) vmax = 50;
             if (dual) {
                 lanes2 = lanes1 - Math.round(lanes1/2);
@@ -56,7 +53,7 @@ var parseMap = function () {
                 }
             }
 
-            if (!(auxway.nd[auxway.nd.length -1].$.ref in nodeDict)){
+            if (!(auxway.nd[auxway.nd.length-1].$.ref in nodeDict)){
                     var newNode = {};
                     newNode.out = [];
                     nodeDict[auxway.nd[auxway.nd.length -1].$.ref] = newNode;
@@ -103,7 +100,19 @@ var parseMap = function () {
             tramDict[tramkey].out = node2.out;
         }
 
-        console.log('Done parsing');
+        console.log('Done parsing, starting inserts');
+
+        //Inserting begins
+        for(var tramkey in tramDict){
+            var tram = tramDict[tramkey];
+            var pos = {};
+            pos.latitude = tram.latitude;
+            pos.longitude = tram.longitude;
+
+            stretch.insert(tramkey, pos, tram.vmax, tram.distance, tram.lanes);
+        }
+
+        console.log('Done');
     });
 });
 
@@ -128,3 +137,5 @@ function deg2rad(deg) {
 }
 
 exports.parseMap = parseMap;
+
+//parseMap();
