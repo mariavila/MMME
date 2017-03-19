@@ -32,7 +32,7 @@ var solve = function (begin,  end){
   firstState.way = [];
   heap.push(firstState);
 
-  while(!heap.empty() && heap.peek() != end){
+  while(!heap.empty() && heap.peek().stretchId != end){
     var nowState = heap.pop();
     var succesors = Stretch.getParameter(nowState.stretchId, "nextsStretchs");
     for (var succesorsKey in succesors)
@@ -56,8 +56,23 @@ var solve = function (begin,  end){
     }
   }
     console.log('finishing solve');
-  if ( !heap.empty() ) return heap.pop().way;
-  return -1;
+    var retur = {};
+    retur.way = [];
+    if ( !heap.empty() ){
+      
+        retur.way = heap.peek().way;
+        retur.status = 0;
+        retur.time = heap.peek().time;
+        retur.cost = heap.peek().cost;
+        retur.money = (retur.cost - retur.time) * 15.0 / 3600;
+        return retur;
+    }  else {
+        retur.status = 1;
+        retur.time = 0;
+        retur.cost = 0;
+        retur.money = (retur.cost - retur.time) * 15.0 / 3600;
+        return retur;
+    }
 }
 
 
