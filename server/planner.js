@@ -4,7 +4,7 @@ const MEANSPEED = 15.0 / 3.6;
 
 function totalCost(state, end) {
   var e =expectedCost(state, end) ;
-  return e + state.cost;
+  return state.cost;
 }
 
 function expectedCost(state,end) {

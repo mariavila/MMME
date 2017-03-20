@@ -12,6 +12,8 @@ var orderEndDate = function(x, y) {
 
 var insert = function(id, pos, vmax, long, lanes, nextsStretchs) {
 
+    if(lanes == 0) lanes = 1;
+
     var stretch = {id: id, pos : pos, vmax : vmax, long : long,
         lanes : lanes, nextsStretchs : nextsStretchs};
 
@@ -137,7 +139,12 @@ var getTime = function(idScretch, time) {
 
     var stretch = stretchs[idScretch];
 
-    if(numPeople == 0) numPeople = 0.001; //no vull dividir per 0
+    if(numPeople == 0) {
+      numPeople = 0.001; //no vull dividir per 0
+    }
+   
+    console.log(stretch);
+    
     return stretch.long/Math.min(stretch.vmax, stretch.k/numPeople);
 }
 exports.getTime = getTime;

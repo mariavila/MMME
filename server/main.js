@@ -34,7 +34,7 @@ console.log(req.query);
 		res.render('geocoding.html', info);
 	});
 });
-//NO COMPROVAT
+
 app.get('/initRoute', function(req, res){
     var pos_ini = {};
     var pos_fi = {};
@@ -43,6 +43,13 @@ app.get('/initRoute', function(req, res){
     pos_fi.latitude = req.query.pos_fi_lat;
     pos_fi.longitude = req.query.pos_fi_lng;
 	var user_id = req.query.id;
+
+	pos_ini.latitude = 41.3874895;
+	pos_ini.longitude = 2.1154993;
+
+	pos_fi_lat = 41.38592130819895;
+	pos_fi_lng = 2.1184301376342773;
+
   console.log(req.query);
   state.clearRouteUser(user_id);
   var ret = stretch.getNearestStretchs(pos_ini,pos_fi);
